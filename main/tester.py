@@ -1,11 +1,7 @@
-# system imports
-from time import perf_counter
-from random import randint as ran
-
-# custom imports (if an import is not working, make sure to change the
-# json file in .vscode so the code knows where to look)
 import sorts
 import searches
+from time import perf_counter
+from random import randint as ran
 from data_types import *
 from LinkedList import LinkedList
 

@@ -2,12 +2,14 @@ from data_types import Node, EntryNode
 
 class LinkedList:
   def __init__(self, value: any, key=None) -> None:
-    self.size = 1
+    self.size = 0
 
-    if key == None:
-      self.root = Node(value, None)
-    else:
-      self.root = EntryNode(key, value, None)
+    if value != None:
+      self.size = 1
+      if key == None:
+        self.root = Node(value, None)
+      else:
+        self.root = EntryNode(key, value, None)
 
   def create_node(self, value, link=None, key=None):
     self.size += 1
@@ -54,7 +56,7 @@ class LinkedList:
 
     return -1
 
-  def append(self, value: any, index=None, key=None) -> None: # will add it to the start and anywhere else
+  def add(self, value: any, index=None, key=None) -> None: # will add it to the start and anywhere else
     if index == None: index=self.size
       
     if index > self.size:
@@ -81,6 +83,12 @@ class LinkedList:
   def set_root(self, value: any, key=None) -> None:
     temp_node = self.create_node(value, key=key, link=self.root)
     self.root = temp_node
+
+  def append(self, value: any, index=None) -> None:
+    self.add(value, index, None)
+
+  def append_key(self, key: any, value: any, index=None) -> None:
+    self.add(value, index, key)
 
   def pop(self, index = None) -> Node:
     if index != None and index >= self.size:
@@ -113,6 +121,46 @@ class LinkedList:
     self.root = self.root.get_link()
     self.size -= 1
     return removed
+
+  def pop_elements(self, checker: any, all = False, keys=False) -> None:
+    def check_element(element: Node) -> bool:
+      if keys:
+        return hasattr(element, "key") and element.key == checker
+      else:
+        return element.value == checker
+
+    stop_change = False
+    if self.root == None:
+      return
+
+    temp_node = self.root
+    prev_node = None
+
+    if check_element(temp_node): # remove the first node
+      self.pop_root()
+      if not all: return
+
+    while temp_node.get_link() != None:
+      if not stop_change:
+        prev_node = temp_node
+      else:
+        stop_change = False
+      temp_node = temp_node.get_link()
+
+      if check_element(temp_node):
+        if temp_node == None: # this is the final node
+          prev_node.set_link = None
+        else: # this is a middle node
+          prev_node.set_link(temp_node.get_link())
+          stop_change = True
+        self.size -= 1
+        if not(all): return
+
+  def pop_value(self, value: any, all = False) -> None:
+    self.pop_elements(value, all, False)
+
+  def pop_key(self, key: any, all=False) -> None:
+    self.pop_elements(key, all, True)
 
   def __str__(self) -> str:
     print_statement = ""
