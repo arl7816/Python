@@ -1,37 +1,32 @@
 from data_types import Node, EntryNode
 
 class LinkedList:
-  def __init__(self, value: any, key=None) -> None:
+  def __init__(self, obj = None) -> None:
     self.size = 0
+    self.root = None
 
-    if value != None:
+    if obj != None:
+      self.root = Node(obj, None)
       self.size = 1
-      if key == None:
-        self.root = Node(value, None)
-      else:
-        self.root = EntryNode(key, value, None)
 
-  def create_node(self, value, link=None, key=None):
+  def create_node(self, value, link=None):
     self.size += 1
-    if key == None:
-      return Node(value, link=link)
-    else:
-        return EntryNode(key, value, link)
+    return Node(value, link=link)
 
-  def get_root(self) -> Node:
-    return self.root
+  def get_root(self) -> object:
+    return self.root.get_value()
 
-  def get(self, index=0) -> Node:
+  def get(self, index=0) -> object:
     if index >= self.size:
       raise IndexError("Index", index, "is out of bounds for a linked list of size ", self.size)
 
     if index == 0:
-      return self.root
+      return self.root.get_value()
 
     temp_node = self.root
-    for i in range(1, index):
+    for _ in range(1, index):
       temp_node = temp_node.get_link()
-    return temp_node
+    return temp_node.get_value()
 
   def get_value(self, value: any) -> int:
     index = 0
@@ -43,27 +38,14 @@ class LinkedList:
       index += 1
     return -1
 
-  def get_key(self, key: any) -> int:
-    index = 0
-    temp_node = self.root
-
-    while temp_node != None:
-      if hasattr(temp_node, "key"):
-        if temp_node.get_key() == key:
-          return index
-      temp_node = temp_node.get_link()
-      index += 1
-
-    return -1
-
-  def add(self, value: any, index=None, key=None) -> None: # will add it to the start and anywhere else
+  def append(self, obj: object, index=None) -> None: # will add it to the start and anywhere else
     if index == None: index=self.size
       
     if index > self.size:
       raise IndexError("Index", index, "is out of bounds for a linked list of size ", self.size)
 
     if index == 0:
-      return self.set_root(value, key)
+      return self.set_root(obj)
 
     temp_node = self.root
     prev_node = self.root
@@ -73,24 +55,18 @@ class LinkedList:
     # we now have the node we want
     
     if temp_node == None: # were at the tail node
-      prev_node.set_link(self.create_node(value, key=key))
+      prev_node.set_link(self.create_node(obj))
       return
     
     # were in the middle nodes
-    new_node = self.create_node(value, key=key, link=temp_node)
+    new_node = self.create_node(obj, link=temp_node)
     prev_node.set_link(new_node)
 
-  def set_root(self, value: any, key=None) -> None:
-    temp_node = self.create_node(value, key=key, link=self.root)
+  def set_root(self, obj: object) -> None:
+    temp_node = self.create_node(obj, link=self.root)
     self.root = temp_node
 
-  def append(self, value: any, index=None) -> None:
-    self.add(value, index, None)
-
-  def append_key(self, key: any, value: any, index=None) -> None:
-    self.add(value, index, key)
-
-  def pop(self, index = None) -> Node:
+  def pop(self, index = None) -> object:
     if index != None and index >= self.size:
       raise IndexError("Index", index, "is out of bounds for a linked list of size ", self.size)
 
@@ -109,25 +85,22 @@ class LinkedList:
     if temp_node == None: # were at the tail node
       prev_node.set_link = None
       self.size -= 1
-      return prev_node
+      return prev_node.get_value()
     
     # were in the middle nodes
     self.size -= 1
     prev_node.set_link(temp_node.get_link())
-    return temp_node
+    return temp_node.get_value()
 
-  def pop_root(self) -> Node:
+  def pop_root(self) -> object:
     removed = self.root
     self.root = self.root.get_link()
     self.size -= 1
-    return removed
+    return removed.get_value()
 
-  def pop_elements(self, checker: any, all = False, keys=False) -> None:
-    def check_element(element: Node) -> bool:
-      if keys:
-        return hasattr(element, "key") and element.key == checker
-      else:
-        return element.value == checker
+  def pop_value(self, checker: any, all = False) -> None:
+    def check_element(element: object) -> bool:
+      return element.value == checker
 
     stop_change = False
     if self.root == None:
@@ -156,12 +129,6 @@ class LinkedList:
         self.size -= 1
         if not(all): return
 
-  def pop_value(self, value: any, all = False) -> None:
-    self.pop_elements(value, all, False)
-
-  def pop_key(self, key: any, all=False) -> None:
-    self.pop_elements(key, all, True)
-
   def __str__(self) -> str:
     print_statement = ""
     temp_node = self.root
@@ -169,10 +136,10 @@ class LinkedList:
     if temp_node == None:
       return ""
 
-    print_statement += temp_node.__str__()
+    print_statement += str(temp_node.get_value())
 
     while temp_node.get_link() != None:
       temp_node = temp_node.get_link()
-      print_statement += " -> " + temp_node.__str__()
+      print_statement += " -> " + str(temp_node.get_value())
     
     return print_statement

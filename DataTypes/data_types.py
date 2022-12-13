@@ -17,15 +17,54 @@ class Node:
   def set_link(self, link: object) -> None:
     self.link = link
 
+  def __eq__(self, obj: object) -> bool:
+    result = False
+    if type(obj) == type(self):
+      result = obj.value == self.value and obj.link == self.link
+    return result
+
   def __ne__(self, obj: object): # not equal to
     result = True
     if type(obj) == type(self):
-      result = obj.value != self.value and obj.link == self.link
+      result = obj.value != self.value and obj.link != self.link
     return result
 
   def __str__(self) -> str:
-    return "Node: V=" + str(self.value)
+    return "Node: " + str(self.value)
   
+class DoubleNode:
+  def __init__(self, value: any, left = None, right = None) -> None:
+    self.value = value
+    self.left = left
+    self.right = right
+
+  def get_right(self) -> object:
+    return self.right
+  
+  def get_left(self) -> object:
+    return self.left
+
+  def get_value(self) -> object:
+    return self.value
+
+  def set_value(self, value: object) -> None:
+    self.value = value
+
+  def __eq__(self, obj: object) -> bool:
+    result = False
+    if type(obj) == type(self):
+      result = obj.value == self.value and obj.left == self.left and self.right == obj.right
+    return result
+
+  def __ne__(self, obj: object): # not equal to
+    result = True
+    if type(obj) == type(self):
+      result = obj.value != self.value and obj.left != self.left and self.right != obj.right
+    return result
+
+  def __str__(self) -> str:
+    return "DoubleNode: " + str(self.value)
+
 class EntryNode(Node):
   def __init__(self, key: any , value: any, link=None) -> None:
     super().__init__(value, link)
