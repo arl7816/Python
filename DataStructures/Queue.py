@@ -1,7 +1,18 @@
 from data_types import Node, DoubleNode
 
 class Queue:
+  """
+  [summary]
+  
+  """
   def __init__(self, obj = None) -> None:
+    """
+    [Summary]
+    The constructor for an object
+
+    Args:
+        obj (object, optional): The starting value for the Queue. Defaults to None.
+    """
     self.size = 0
     self.front = None
     self.back = None
