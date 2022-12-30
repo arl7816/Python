@@ -52,6 +52,23 @@ def selection_sort(arr: list[object], reverse = False) -> list[object]:
 
   return sorted
 
+# implement this later
+def bubble_sort(arr: list[object], reverse = False) -> list[object]:
+  if len(arr) <= 1:
+    return arr
+
+  for _ in range(len(arr)):
+    n1 = 0
+    n2 = 1
+    while n2 != len(arr) :
+      if compare(arr[n2], arr[n1], reverse):
+        temp = arr[n1]
+        arr[n1] = arr[n2]
+        arr[n2] = temp
+      n1 += 1
+      n2 += 1
+  return arr
+
 def insertion_sort(arr: list[object], reverse=False) -> list[object]:
   """[summary] Gets the sorted list of a array of objects using the insertion sort method
   \nO(n) = n^2
@@ -164,6 +181,36 @@ def merge_sort(arr: list[object], reverse=False) -> list[object]:
 
 
 def quicksort(arr: list[object], reverse=False) -> list[object]:
+  """
+  [summary]
+  Gets a sorted version of a given list using the quicksort method
+
+  Args:
+      arr (list[object]): Array of objects
+      reverse (bool, optional): If true, list will be sorted in reverse. Defaults to False.
+
+  Returns:
+      list[object]: a sorted version of the list
+
+  \nComplexity:
+  \nO(n) = nlogn
+  \nθ(n) = n  
+  \nΩ(n) = n^2
+  \n\t where n is the amount of elements in the array
+
+  \nQuicksort is an algorithm that creates recursivly creates a arrays using a pivot point (random, but first index for tracing)
+  than comparing those elements to the pivot point, until a base case is reached. After all arrays have reached the base case
+  they join back together
+
+  \nSample Run:
+  \n[7,5,2,4,1,6,3,0]
+  \n[5,2,3,1,6,0][7][]
+  \n[2,3,1,0][5][6]
+  \n[1,0][2][3]
+  \n[0][1][]\t[2][][3][]
+  \n[0] + [1] + [] + [2] + [] + [3] + [] + [5] + [6] + [7] + []
+  \n = [0,1,2,3,5,6,7]
+  """
   if len(arr) <= 1:
     return arr
 
@@ -185,3 +232,10 @@ def quicksort(arr: list[object], reverse=False) -> list[object]:
   
 
   return quicksort(left, reverse) + pivot + quicksort(right, reverse)
+
+
+def counting_sort(arr: list[object], reverse = False) -> list[object]:
+  return None
+
+def radix_sort(arr: list[object], reverse = False) -> list[object]:
+  return None

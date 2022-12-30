@@ -1,13 +1,16 @@
 from data_types import Node, EntryNode
 
 class Stack:
-  def __init__(self, obj = None) -> None:
+  """
+  A Stack is a type of linked list based on the first-in, last-out paradigm. In which, each node is appened to the
+  front of the list and each node that is accessed, is taken from the front of the list, similar to stacking plates
+  """
+  def __init__(self, *values) -> None:
     self.size = 0
     self.head = None
 
-    if obj != None:
-      self.size = 1
-      self.head = Node(obj, None)
+    for value in values:
+      self.add(value)
 
   def peek(self) -> object:
     if self.size > 0:
@@ -35,15 +38,18 @@ class Stack:
     self.size += 1
     return
 
+  def __len__(self) -> int:
+    return self.size
+
   def __str__(self) -> str:
     print_statement = ""
     temp_node = self.head
 
     while temp_node != None:
-      print_statement += temp_node.value
+      print_statement += str(temp_node.value)
 
       if temp_node.get_link() != None:
-        print_statement += "\n|\nV\n"
+        print_statement += "\n↓\n"
 
       temp_node = temp_node.get_link()
     return print_statement

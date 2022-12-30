@@ -50,18 +50,6 @@ class DoubleNode:
   def set_value(self, value: object) -> None:
     self.value = value
 
-  def __eq__(self, obj: object) -> bool:
-    result = False
-    if type(obj) == type(self):
-      result = obj.value == self.value and obj.left == self.left and self.right == obj.right
-    return result
-
-  def __ne__(self, obj: object): # not equal to
-    result = True
-    if type(obj) == type(self):
-      result = obj.value != self.value and obj.left != self.left and self.right != obj.right
-    return result
-
   def __str__(self) -> str:
     return "DoubleNode: " + str(self.value)
 
@@ -82,7 +70,28 @@ class EntryNode(Node):
   def __str__(self) -> str:
     return "EntryNode: K=" + str(self.key)
 
-@dataclass (frozen=True)
 class Entry:
-  key: any
-  value: any
+  def __init__(self, key: object, value: object) -> None:
+    self.key = key
+    self.value = value
+
+  def get_key(self) -> object:
+    return self.key
+  
+  def get_value(self) -> object:
+    return self.value
+  
+  def __setattr__(self, name: any, value: any) -> None:
+    if hasattr(self, "key") and name == "key":
+      raise Exception("Cannot change the value of a key")
+
+    return super().__setattr__(name, value)
+
+  def __eq__(self, obj: object) -> bool:
+    result = False
+    if type(self) == type(obj):
+      result = self.key == obj.key
+    return result
+
+  def __ne__(self, obj: object) -> bool:
+    return not self.__eq__(obj)

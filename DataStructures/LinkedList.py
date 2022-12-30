@@ -1,13 +1,12 @@
-from data_types import Node, EntryNode
+from data_types import Node
 
 class LinkedList:
-  def __init__(self, obj = None) -> None:
+  def __init__(self, *values) -> None:
     self.size = 0
     self.root = None
 
-    if obj != None:
-      self.root = Node(obj, None)
-      self.size = 1
+    for value in values:
+      self.append(value)
 
   def create_node(self, value, link=None):
     self.size += 1
@@ -128,6 +127,13 @@ class LinkedList:
           stop_change = True
         self.size -= 1
         if not(all): return
+
+  def replace(self, index: int, value: object) -> None:
+    self.pop(index)
+    self.append(value, index)
+
+  def __len__(self) -> int:
+    return self.size
 
   def __str__(self) -> str:
     print_statement = ""
