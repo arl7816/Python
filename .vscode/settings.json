@@ -2,7 +2,8 @@
   "python.analysis.extraPaths": [
     "./DataTypes",
     "./DataStructures",
-    "./SearchesAndSorts"
+    "./SearchesAndSorts",
+    "./Algorithms"
   ],
   "python.testing.unittestArgs": [
     "-v",
